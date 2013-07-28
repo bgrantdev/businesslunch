@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="span12">
+    <legend>Business Lunch Date  - {{ date }}</legend>
+
+    <div class="span5">
+        <table style="width:50%;table-layout: fixed;" class=" table table-bordered table-highlight">
+        <caption class="text-left"><i class="icon-user"></i><h4>Opted In</h4></caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Venue</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for opt_in in opted_in %}
+                <tr>
+                    <td>{{ opt_in.attendee.user.first_name }}</td>
+                    <td>{{ opt_in.sug_location }}</td>
+                    <td>{{ opt_in.sug_time }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="span5">
+        <table style="width:50%;table-layout: fixed;" class="table table-bordered table-highlight">
+            <caption class="text-left"><i class="icon-user"></i><h4>Opted Out</h4></caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div class="span10">
+    <legend>Opt In </legend>
+    <div class="span4">
+        <div class="control-group">
+            <label class="control-label">Location Suggestion:</label>
+            <div class="controls">
+                {{ form.sug_location }}
+            </div>
+        </div>
+        <div class="conrol-group">
+            <label class="control-label">Time Suggestion:</label>
+            <div class="controls">
+                {{ form.sug_time }}
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <form method="post">
+                {% csrf_token %}
+                <button class="btn btn-info" type="submit">Opt In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

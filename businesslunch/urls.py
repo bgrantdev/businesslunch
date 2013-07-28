@@ -1,17 +1,28 @@
 from django.conf.urls import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from businesslunch.views import HomeView, CalendarView
+from django.contrib.auth.views import login, logout_then_login
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'businesslunch.views.home', name='home'),
-    # url(r'^businesslunch/', include('businesslunch.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+                       url(
+                           regex=r'^$',
+                           view=HomeView.as_view(),
+                           name='home'
+                       ),
+                       url(
+                           regex=r'^login$',
+                           view=login,
+                           kwargs={'template_name': 'login.html'},
+                           name='login'
+                       ),
+                       url(
+                           regex=r'^logout$',
+                           view=logout_then_login,
+                           kwargs={'login_url': '/login'},
+                           name='logout'
+                       ),
+                       url(
+                           regex=r'^calendar$',
+                           view=CalendarView.as_view(),
+                           name='calendar'
+                       )
 )

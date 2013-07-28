@@ -1,0 +1,78 @@
+{% load static %}
+
+<!doctype html>
+
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>Business Lunch</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/application-mean-green.css' %}">
+
+</head>
+<body>
+<div id="wrapper">
+    {% block nav_bar %}
+    <div id="header">
+            <div class="container">
+                <a href="{% url 'home' %}" class="brand"><span></span></a>
+
+                <a href="javascript:;" class="btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <i class="icon-reorder"></i>
+                </a>
+
+                <div class="nav-collapse">
+                    <ul id="main-nav" class="nav pull-right">
+                        <li class="nav-icon">
+                            <a href="{% url 'home' %}">
+                                <i class="icon-home"></i>
+                                <span>Home</span>
+                            </a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="{% url 'calendar' %}">
+                                <i class="icon-calendar"></i>
+                                <span>Calender</span>
+                            </a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="">
+                                <i class="icon-user"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    <div id="content">
+        <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% block content %}
+
+            {% endblock content %}
+        </div>
+    </div>
+</div>
+<script href="{% static 'js/jquery-1.7.2.min.js' %}"></script>
+<script href="{% static 'js/jquery-ui-1.8.21.custom.min.js' %}"></script>
+<script href="{% static 'js/bootstrap.js' %}"></script>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

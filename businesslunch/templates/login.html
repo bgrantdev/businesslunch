@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block nav_bar %}
+
+<div id="header">
+    <div class="container">
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="account-container">
+
+        <div class="content clearfix">
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-error">
+                    <a class="close" data-dismiss="alert">×</a>
+                    {{ error }}
+                </div>
+
+            {% endfor %}
+
+            <form action="" method="post">
+                {% csrf_token %}
+
+                <h1>Login</h1>
+
+                <div class="login-fields">
+                    <p>Login using your registered account:</p>
+
+                    <div class="field">
+                        <label for="id_username">{{ form.username.label_tag }}</label>
+                        <input type="text" id="id_username" name="username" value="" placeholder="{% if form.username.errors %}{{ form.username.errors.0 }}{% else %}Username{% endif %}"
+                               class="login username-field"/>
+                    </div>
+                    <!-- /field -->
+
+                    <div class="field">
+                        <label for="id_password">{{ form.password.label_tag }}</label>
+                        <input type="password" id="id_password" name="password" value="" placeholder="{% if form.password.errors %}{{ form.password.errors.0 }}{% else %}Password{% endif %}"
+                               class="login password-field"/>
+                    </div>
+                    <!-- /password -->
+
+                </div>
+                <!-- /login-fields -->
+
+                <div class="login-actions">
+                    <button class="button btn btn-info btn-large">Login</button>
+                </div>
+                <!-- .actions -->
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
