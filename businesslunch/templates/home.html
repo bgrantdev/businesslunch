@@ -5,7 +5,7 @@
     <legend>Business Lunch Date  - {{ date }}</legend>
 
     <div class="span5">
-        <table style="width:50%;table-layout: fixed;" class=" table table-bordered table-highlight">
+        <table style="width:100%;table-layout: fixed;" class=" table table-bordered table-highlight">
         <caption class="text-left"><i class="icon-user"></i><h4>Opted In</h4></caption>
             <thead>
                 <tr>
@@ -17,7 +17,7 @@
             <tbody>
                 {% for opt_in in opted_in %}
                 <tr>
-                    <td>{{ opt_in.attendee.user.first_name }}</td>
+                    <td>{{ opt_in.attendee }}</td>
                     <td>{{ opt_in.sug_location }}</td>
                     <td>{{ opt_in.sug_time }}</td>
                 </tr>
@@ -35,7 +35,11 @@
                 </tr>
             </thead>
             <tbody>
-
+                {% for opt_out in opted_out %}
+                <tr>
+                    <td>{{ opt_out }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
@@ -45,6 +49,8 @@
 <div class="span10">
     <legend>Opt In </legend>
     <div class="span4">
+        <form method="post">
+        {% csrf_token %}
         <div class="control-group">
             <label class="control-label">Location Suggestion:</label>
             <div class="controls">
@@ -59,12 +65,10 @@
         </div>
         <div class="control-group">
             <div class="controls">
-                <form method="post">
-                {% csrf_token %}
                 <button class="btn btn-info" type="submit">Opt In</button>
-                </form>
             </div>
         </div>
+        </form>
     </div>
 </div>
 {% endblock %}

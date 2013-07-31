@@ -7,5 +7,8 @@ class Person(models.Model):
     user = models.ForeignKey(User)
     phone = PhoneNumberField(null=True, blank=True)
 
+    def __str__(self):
+        return self.user.first_name + ' ' + self.user.last_name
+
 
 

@@ -17,6 +17,7 @@ class HomeView(TemplateView):
         return {
             'date' : self.date,
             'opted_in' : self.opted_in,
+            'opted_out' : self.opted_out,
             'form' : self.opt_in_form,
         }
 
@@ -25,6 +26,8 @@ class HomeView(TemplateView):
         self.date = date
         self.opted_in = OptIn.objects.filter(date=date)
         self.opt_in_form = OptInForm(request.POST or None)
+        all_people = Person.objects.all()
+        self.opted_out = all_people.exclude(id__in=self.opted_in.values_list('attendee', flat=True))
         return super(HomeView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -42,11 +45,12 @@ class CalendarView(TemplateView):
 
     def get_context_data(self, **kwargs):
         return {
-            'form': self.date_form
+            'form': self.date_form,
+            'calendar' : self.calendar,
         }
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        self.calender = calendar
+        self.calendar = calendar
         self.date_form = DateForm(request.POST or None)
         return super(CalendarView, self).dispatch(request, *args, **kwargs)

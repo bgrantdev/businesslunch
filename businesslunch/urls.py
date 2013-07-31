@@ -9,6 +9,11 @@ urlpatterns = patterns('',
                            name='home'
                        ),
                        url(
+                           regex=r'^/(?P<date>\d{2}-\d{2}-\d{4})$',
+                           view=HomeView.as_view(),
+                           name='home'
+                       ),
+                       url(
                            regex=r'^login$',
                            view=login,
                            kwargs={'template_name': 'login.html'},
