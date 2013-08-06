@@ -1,13 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="span12">
-    <legend>Calendar</legend>
+<div class="span12" style="margin-bottom: 50px;">
+    <legend>Calendar {{ date|date:"SHORT_DATE_FORMAT" }}</legend>
     <div class="span5">
         <div id="calendar"></div>
     </div>
-    <legend>Business Lunch Date  - {{ date }}</legend>
 
+    <div class="span4 pull-right">
+        <legend>Opt In </legend>
+        <form method="post">
+        {% csrf_token %}
+        <div class="control-group">
+            <label class="control-label">Location Suggestion:</label>
+            <div class="controls">
+                {{ form.sug_location }}
+            </div>
+        </div>
+        <div class="conrol-group">
+            <label class="control-label">Time Suggestion:</label>
+            <div class="controls">
+                {{ form.sug_time }}
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button class="btn btn-info" type="submit">Opt In</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<div class="span12">
+    <legend>Business Lunch Date  - {{ date }}</legend>
     <div class="span5">
         <table style="width:100%;table-layout: fixed;" class=" table table-bordered table-highlight">
         <caption class="text-left"><i class="icon-user"></i><h4>Opted In</h4></caption>
@@ -32,9 +57,9 @@
         </table>
     </div>
 
-    <div class="span5">
+    <div class="span4 pull-right">
         <table style="width:50%;table-layout: fixed;" class="table table-bordered table-highlight">
-            <caption class="text-left"><i class="icon-user"></i><h4>Opted Out</h4></caption>
+            <caption class="text-left"><i class="icon-user"></i><h4>Donkeys</h4></caption>
             <thead>
                 <tr>
                     <th>Name</th>
@@ -49,33 +74,6 @@
             </tbody>
         </table>
     </div>
-
-</div>
-
-<div class="span10">
-    <legend>Opt In </legend>
-    <div class="span4">
-        <form method="post">
-        {% csrf_token %}
-        <div class="control-group">
-            <label class="control-label">Location Suggestion:</label>
-            <div class="controls">
-                {{ form.sug_location }}
-            </div>
-        </div>
-        <div class="conrol-group">
-            <label class="control-label">Time Suggestion:</label>
-            <div class="controls">
-                {{ form.sug_time }}
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <button class="btn btn-info" type="submit">Opt In</button>
-            </div>
-        </div>
-        </form>
-    </div>
 </div>
 {% endblock %}
 
@@ -84,16 +82,14 @@
 $(document).ready(function() {
     $('#calendar').fullCalendar({
         weekends: false,
-        height: 300,
+        height: 400,
         aspectRatio: 1,
         dayClick: function(date, allDay, jsEvent, view) {
-            if (allDay) {
-                window.location = '/' + moment(date).format('MM-DD-YYYY')
-            }
-            $(this).css('background-color', 'red');
-            }
+                    if (allDay) {
+                        window.location = '/' + moment(date).format('YYYY-MM-DD')
+                    }
+                  }
     })
-
 });
 </script>
 {% endblock %}
