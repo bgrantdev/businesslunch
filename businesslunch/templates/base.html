@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}">
     <link rel="stylesheet" href="{% static 'css/jquery-ui-1.8.21.custom.css' %}">
     <link rel="stylesheet" href="{% static 'css/application-mean-green.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fullcalendar.css' %}">
 
     <script src="{% static 'js/modernizr-2.5.3.min.js' %}"></script>
 
@@ -34,13 +35,6 @@
                             <a href="{% url 'home' %}">
                                 <i class="icon-home"></i>
                                 <span>Home</span>
-                            </a>
-                        </li>
-
-                        <li class="dropdown">
-                            <a href="{% url 'calendar' %}">
-                                <i class="icon-calendar"></i>
-                                <span>Calender</span>
                             </a>
                         </li>
 
@@ -96,6 +90,7 @@
 <script src="{% static 'js/jquery-1.7.2.min.js' %}"></script>
 <script src="{% static 'js/jquery-ui-1.8.21.custom.min.js' %}"></script>
 <script src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
+<script src="{% static 'js/fullcalendar.js' %}"></script>
 <script src="{% static 'js/bootstrap.js' %}"></script>
 
 {% block scripts %}{% endblock %}

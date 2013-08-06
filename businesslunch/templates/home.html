@@ -2,6 +2,10 @@
 
 {% block content %}
 <div class="span12">
+    <legend>Calendar</legend>
+    <div class="span5">
+        <div id="calendar"></div>
+    </div>
     <legend>Business Lunch Date  - {{ date }}</legend>
 
     <div class="span5">
@@ -12,6 +16,7 @@
                     <th>Name</th>
                     <th>Venue</th>
                     <th>Time</th>
+                    <th>Join</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,6 +25,7 @@
                     <td>{{ opt_in.attendee }}</td>
                     <td>{{ opt_in.sug_location }}</td>
                     <td>{{ opt_in.sug_time }}</td>
+                    <td><a href="{% url 'join' opt_in.id %}" class="btn btn-info">Join</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -71,4 +77,23 @@
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $('#calendar').fullCalendar({
+        weekends: false,
+        height: 300,
+        aspectRatio: 1,
+        dayClick: function(date, allDay, jsEvent, view) {
+            if (allDay) {
+                window.location = '/' + date.toString()
+            }
+            $(this).css('background-color', 'red');
+            }
+    })
+
+});
+</script>
 {% endblock %}

@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from businesslunch.forms import OptInForm, DateForm
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from businesslunch.models import OptIn
 from people.models import Person
 
@@ -36,21 +36,15 @@ class HomeView(TemplateView):
             opt_in.attendee = Person.objects.get(user=request.user)
             opt_in.date = self.date
             opt_in.save()
-            return reverse(redirect( 'home', args=[self.date]))
+            return redirect(reverse( 'home'))
         return self.render_to_response(self.get_context_data())
 
 
-class CalendarView(TemplateView):
-    template_name = 'calendar.html'
-
-    def get_context_data(self, **kwargs):
-        return {
-            'form': self.date_form,
-            'calendar' : self.calendar,
-        }
+class JoinView(View):
 
     @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        self.calendar = calendar
-        self.date_form = DateForm(request.POST or None)
-        return super(CalendarView, self).dispatch(request, *args, **kwargs)
+    def get(self, request, opt_in_id):
+        opt_in = get_object_or_404(OptIn, pk=opt_in_id)
+        attendee = Person.objects.get(user=request.user)
+        OptIn.objects.get_or_create(attendee=attendee, sug_location=opt_in.sug_location, sug_time=opt_in.sug_time)
+        return redirect(reverse('home'))

@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from businesslunch.views import HomeView, CalendarView
+from businesslunch.views import HomeView, JoinView
 from django.contrib.auth.views import login, logout_then_login
 
 urlpatterns = patterns('',
@@ -26,8 +26,8 @@ urlpatterns = patterns('',
                            name='logout'
                        ),
                        url(
-                           regex=r'^calendar$',
-                           view=CalendarView.as_view(),
-                           name='calendar'
-                       )
+                           regex=r'^join/(?P<opt_in_id>\d+$)',
+                           view=JoinView.as_view(),
+                           name='join'
+                       ),
 )
