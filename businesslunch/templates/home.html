@@ -88,7 +88,7 @@ $(document).ready(function() {
         aspectRatio: 1,
         dayClick: function(date, allDay, jsEvent, view) {
             if (allDay) {
-                window.location = '/' + date.toString()
+                window.location = '/' + moment(date).format('MM-DD-YYYY')
             }
             $(this).css('background-color', 'red');
             }
