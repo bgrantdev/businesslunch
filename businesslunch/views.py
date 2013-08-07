@@ -7,7 +7,6 @@ from django.views.generic import TemplateView, View
 from businesslunch.models import OptIn
 from people.models import Person
 
-import calendar
 import datetime
 
 class HomeView(TemplateView):
@@ -19,15 +18,17 @@ class HomeView(TemplateView):
             'opted_in' : self.opted_in,
             'opted_out' : self.opted_out,
             'form' : self.opt_in_form,
+            'events': self.events
         }
 
     @method_decorator(login_required)
-    def dispatch(self, request, date=datetime.date.today(),*args, **kwargs):
-        self.date = date
+    def dispatch(self, request, date=datetime.date.today().strftime('%Y-%m-%d'),*args, **kwargs):
+        self.date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
         self.opted_in = OptIn.objects.filter(date=date)
         self.opt_in_form = OptInForm(request.POST or None)
         all_people = Person.objects.all()
         self.opted_out = all_people.exclude(id__in=self.opted_in.values_list('attendee', flat=True))
+        self.events = self.get_events()
         return super(HomeView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -39,6 +40,18 @@ class HomeView(TemplateView):
             return redirect(reverse( 'home'))
         return self.render_to_response(self.get_context_data())
 
+    def get_events(self):
+        events = []
+        dates = []
+        for opt_in in OptIn.objects.all():
+            date = opt_in.date.strftime('%Y-%m-%d')
+            if date not in dates:
+                event_dict = {}
+                event_dict['title'] = 'Lunch'
+                event_dict['start'] = opt_in.date.strftime('%Y-%m-%d')
+                events.append(event_dict)
+                dates.append(date)
+        return events
 
 class JoinView(View):
 

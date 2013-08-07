@@ -84,12 +84,21 @@ $(document).ready(function() {
         weekends: false,
         height: 400,
         aspectRatio: 1,
+        events: {{ events|safe }},
         dayClick: function(date, allDay, jsEvent, view) {
                     if (allDay) {
                         window.location = '/' + moment(date).format('YYYY-MM-DD')
                     }
-                  }
+                  },
+        dayRender : function(date, cell){
+            var date_sel = new Date('{{ date|date:"Y-m-d" }}');
+            if (date.getDate() == date_sel.getDate()+1 && date.getMonth() == date_sel.getMonth()){
+                cell.css("background-color", "red");
+            }
+        }
     })
+    var date = new Date('{{ date|date:"Y-m-d" }}');
+    $('#calendar').fullCalendar('gotoDate', date);
 });
 </script>
 {% endblock %}
