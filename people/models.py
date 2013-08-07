@@ -4,7 +4,7 @@ from django_localflavor_us.models import PhoneNumberField
 
 
 class Person(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, unique=True)
     phone = PhoneNumberField(null=True, blank=True)
 
     def __str__(self):
